@@ -17,12 +17,13 @@ DEBUG = decouple.config('DEBUG', True, cast=bool)
 ALLOWED_HOSTS = (
     'localhost',
     '127.0.0.1',
-    '185.217.190.143',
+    'django-rishat-test-task-production.up.railway.app',
 )
 
-CSRF_TRUSTED_ORIGINS = [
-    "http://127.0.0.1:8080",
-]
+CSRF_TRUSTED_ORIGINS = (
+    'http://127.0.0.1:8080',
+    'django-rishat-test-task-production.up.railway.app',
+)
 
 DJANGO_APPS = (
     'django.contrib.admin',
