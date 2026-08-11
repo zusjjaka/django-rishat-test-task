@@ -84,15 +84,19 @@ class BuyView(View):
         try:
             positive_quantity_ids = {
                 int(item_id): int(quantity)
-                for item_id, quantity in zip(data.getlist('ids'), data.getlist('quantities'))
+                for item_id, quantity
+                in zip(data.getlist('ids'), data.getlist('quantities'))
                 if quantity.isdecimal() and int(quantity) > 0
             }
-        except:
+        except Exception:
             return JsonResponse({'error': 'invalid format'}, status=400)
         order: Order = Order.objects.create()
         items = Item.objects.filter(id__in=positive_quantity_ids)
-        if any(filter(lambda x: x.currency != items.first().currency, items)):
-            return JsonResponse({'error': 'currencies must be the same'}, status=400)
+        if any(
+            filter(lambda x: x.currency != items.first().currency, items)
+        ):
+            return JsonResponse({'error': 'currencies must be the same'},
+                                status=400)
         order_items: list[OrderItem] = []
         for item in items:
             order_items.append(OrderItem(
@@ -112,6 +116,6 @@ class BuyView(View):
                 'quantity': positive_quantity_ids[item.id]
             } for item in items],
             mode='payment',
-            success_url=f'http://127.0.0.1:8000/item/?success=true'
+            success_url='http://127.0.0.1:8000/item/?success=true'
         )
         return JsonResponse({'session_id': session.id})

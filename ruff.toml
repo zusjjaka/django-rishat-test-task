@@ -3,7 +3,7 @@ exclude = [
     "migrations",
 ]
 
-line-length = 79
+line-length = 80
 indent-width = 4
 
 [format]

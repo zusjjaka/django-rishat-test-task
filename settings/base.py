@@ -15,8 +15,14 @@ SECRET_KEY = decouple.config('SECRET_KEY', cast=str)
 DEBUG = decouple.config('DEBUG', True, cast=bool)
 
 ALLOWED_HOSTS = (
-    '*',
+    'localhost',
+    '127.0.0.1',
+    '185.217.190.143',
 )
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1:8080",
+]
 
 DJANGO_APPS = (
     'django.contrib.admin',

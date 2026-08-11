@@ -37,7 +37,7 @@ class Item(models.Model):
 class Order(models.Model):
     """Bucket of items model."""
     def total_sum(self) -> Decimal:
-        order_item_list: QuerySet[OrderItem] = self.items.select_related("item")
+        order_item_list: QuerySet[OrderItem] = self.items.select_related('item')
         total: Decimal = 0
 
         for order_item in order_item_list:
