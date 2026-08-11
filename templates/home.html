@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Страница Товара</title>
+    <style>
+        body {
+            background-color: #1a1f24;
+            color: white;
+            width: 100vw;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        h1 {
+            margin-top: 50px;
+            margin-bottom: 20px;
+            width: auto;
+            text-align: center;
+        }
+        p {
+            width: 450px;
+            font-size: 110%;
+            text-align: left;
+            white-space: pre-line;
+        }
+        button {
+            height: 40px;
+            width: 120px;
+            background-color: #1051b5;
+            color: #ffffff;
+            border: none;
+            border-radius: 7px;
+            margin-top: 35px;
+            margin-bottom: 50px;
+            font-size: large;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #104ba2;
+        }
+        button:active {
+            background-color: #0b3c84;
+        }
+        a, a:visited {
+            color: #5274e1;
+            text-decoration: none;
+        }
+        a:hover {
+            color: #405bb6;
+        }
+    </style>
+</head>
+<body>
+    <h1>Добро пожаловать!</h1>
+    <p>
+        / - Домашняя страница
+        <a href="admin/">admin/</a> - Админ панель
+        <a href="item/">item/</a> - Все товары
+        <a href="item/9/">item/{int:id}/</a> - Товар с id
+        <a href="buy/9/">buy/{int:id}/</a> - Получить stripe session
+    </p>
+    <a href="https://github.com/zusjjaka/django-rishat-test-task">GitHub Project</a>
+</body>
+</html>

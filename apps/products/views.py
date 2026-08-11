@@ -18,6 +18,15 @@ from .models import Item
 
 stripe.api_key = settings.STRIPE_SEC_KEY
 
+class HomePageView(View):
+    """HomePage."""
+    def get(self,
+            request: HttpRequest,
+            *args: t.Any,
+            **kwargs: t.Any) -> HttpResponse:
+        return render(request, 'home.html')
+
+
 class ItemView(View):
     """Show items info."""
     def get(self,
