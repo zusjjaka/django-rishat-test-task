@@ -71,7 +71,7 @@ class BuyView(View):
                 'quantity': 1
             }],
             mode='payment',
-            success_url=f'http://127.0.0.1:8000/item/{item.id}/?success=true'
+            success_url=f'{settings.DOMAIN}/item/{item.id}/?success=true'
         )
         return JsonResponse({'session_id': session.id})
 
@@ -116,6 +116,6 @@ class BuyView(View):
                 'quantity': positive_quantity_ids[item.id]
             } for item in items],
             mode='payment',
-            success_url='http://127.0.0.1:8000/item/?success=true'
+            success_url=f'{settings.DOMAIN}/item/?success=true'
         )
         return JsonResponse({'session_id': session.id})

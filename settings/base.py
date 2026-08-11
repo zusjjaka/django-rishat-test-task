@@ -14,15 +14,18 @@ SECRET_KEY = decouple.config('SECRET_KEY', cast=str)
 
 DEBUG = decouple.config('DEBUG', True, cast=bool)
 
+HOST = decouple('HOST', '127.0.0.1', cast=str)
+DOMAIN = 'https://' + HOST
+
 ALLOWED_HOSTS = (
     'localhost',
     '127.0.0.1',
-    'django-rishat-test-task-production.up.railway.app',
+    HOST,
 )
 
 CSRF_TRUSTED_ORIGINS = (
     'http://127.0.0.1:8080',
-    'https://django-rishat-test-task-production.up.railway.app',
+    DOMAIN,
 )
 
 DJANGO_APPS = (
