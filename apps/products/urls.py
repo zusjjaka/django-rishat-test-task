@@ -9,7 +9,8 @@ from .views import (
 
 urlpatterns = (
     path('', HomePageView.as_view()),
-    path('item/<int:id>/', ItemView.as_view()),
     path('item/', ItemView.as_view()),
+    path('item/<int:id>/', ItemView.as_view()),
+    path('buy/', BuyView.as_view()),
     path('buy/<int:id>/', BuyView.as_view()),
 )

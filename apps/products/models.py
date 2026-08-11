@@ -1,5 +1,8 @@
 from django.db import models
+from django.db.models import QuerySet
 from django.utils.translation import gettext_lazy as _
+
+from decimal import Decimal
 
 
 class Item(models.Model):
@@ -11,7 +14,7 @@ class Item(models.Model):
     description: str = models.TextField(
         verbose_name=_('описание')
     )
-    price: float = models.DecimalField(
+    price: Decimal = models.DecimalField(
         verbose_name=_('цена'),
         max_digits=8,
         decimal_places=2
@@ -23,3 +26,40 @@ class Item(models.Model):
         ordering = (
             'id',
         )
+
+
+class Order(models.Model):
+    """Bucket of items model."""
+    def total_sum(self) -> Decimal:
+        order_item_list: QuerySet[OrderItem] = self.items.select_related("item")
+        total: Decimal = 0
+
+        for order_item in order_item_list:
+            total += order_item.item.price * order_item.quantity
+
+        return total
+
+    class Meta:
+        verbose_name = 'корзина'
+        verbose_name_plural = 'корзины'
+
+
+class OrderItem(models.Model):
+    """Item in the bucket."""
+    order: Order = models.ForeignKey(
+        Order,
+        on_delete=models.CASCADE,
+        related_name='items'
+    )
+    item: 'Item' = models.ForeignKey(
+        Item,
+        on_delete = models.CASCADE
+    )
+    quantity: int = models.SmallIntegerField(
+        verbose_name=_('количество'),
+        default=1
+    )
+
+    class Meta:
+        verbose_name = 'позиция'
+        verbose_name_plural = 'позиции'
