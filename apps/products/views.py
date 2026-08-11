@@ -1,7 +1,4 @@
-from django.shortcuts import (
-    render,
-    redirect,
-)
+from django.shortcuts import render
 from django.db.models import QuerySet
 from django.views import View
 from django.http import (
@@ -68,7 +65,7 @@ class BuyView(View):
                         'name': item.name,
                         'description': item.description
                     },
-                    'currency': 'RUB',
+                    'currency': item.get_currency_display(),
                     'unit_amount': int(item.price * 100)
                 },
                 'quantity': 1
@@ -85,19 +82,21 @@ class BuyView(View):
              **kwargs: t.Any) -> HttpResponse:
         data = request.POST
         try:
-            quantities_id = {
+            positive_quantity_ids = {
                 int(item_id): int(quantity)
                 for item_id, quantity in zip(data.getlist('ids'), data.getlist('quantities'))
-                if int(quantity) > 0
+                if quantity.isdecimal() and int(quantity) > 0
             }
         except:
-            return JsonResponse({"error": "invalid format"}, status=400)
+            return JsonResponse({'error': 'invalid format'}, status=400)
         order: Order = Order.objects.create()
-        items = Item.objects.filter(id__in=quantities_id)
+        items = Item.objects.filter(id__in=positive_quantity_ids)
+        if any(filter(lambda x: x.currency != items.first().currency, items)):
+            return JsonResponse({'error': 'currencies must be the same'}, status=400)
         order_items: list[OrderItem] = []
         for item in items:
             order_items.append(OrderItem(
-                order=order, item=item, quantity=quantities_id[item.id]
+                order=order, item=item, quantity=positive_quantity_ids[item.id]
             ))
         OrderItem.objects.bulk_create(order_items)
         session = stripe.checkout.Session.create(
@@ -107,10 +106,10 @@ class BuyView(View):
                         'name': item.name,
                         'description': item.description
                     },
-                    'currency': 'RUB',
+                    'currency': item.get_currency_display(),
                     'unit_amount': int(item.price * 100)
                 },
-                'quantity': quantities_id[item.id]
+                'quantity': positive_quantity_ids[item.id]
             } for item in items],
             mode='payment',
             success_url=f'http://127.0.0.1:8000/item/?success=true'

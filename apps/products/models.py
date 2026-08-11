@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from django.db.models import QuerySet
 from django.utils.translation import gettext_lazy as _
 
@@ -18,6 +19,11 @@ class Item(models.Model):
         verbose_name=_('цена'),
         max_digits=8,
         decimal_places=2
+    )
+    currency: str = models.SmallIntegerField(
+        verbose_name=_('валюта'),
+        default=1,
+        choices=settings.CURRENCIES
     )
 
     class Meta:

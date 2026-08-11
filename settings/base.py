@@ -108,3 +108,8 @@ MAILERS = {
 # Stript API keys
 STRIPE_SEC_KEY = decouple.config('STRIPE_SEC_KEY', cast=str)
 STRIPE_PUB_KEY = decouple.config('STRIPE_PUB_KEY', cast=str)
+
+CURRENCIES = (
+    (1, 'usd'),
+    (2, 'eur'),
+)

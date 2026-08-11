@@ -57,7 +57,7 @@
     <form method="post">
         {% csrf_token %}
         {% for item in item_list %}
-        <h1>({{ item.id }}) {{ item.name }} | {{ item.price }}</h1>
+        <h1>({{ item.id }}) {{ item.name }} | {{ item.price }} {{ item.get_currency_display }}</h1>
         <p id="description">{{ item.description }}</p>
         <input class="item" type="number" min="0" name="quantities" placeholder="Количество" value="0">
         <input class="id" type="hidden" name="ids" value="{{ item.id }}">
@@ -65,7 +65,7 @@
         <br><br>
         <button id="buy_all_btn">Купить</button>
         {% else %}
-        <h1>{{ item.name }} | {{ item.price }}</h1>
+        <h1>{{ item.name }} | {{ item.price }} {{ item.get_currency_display }}</h1>
         <p id="description">{{ item.description }}</p>
         <input type="hidden">
         <button id="buy_btn">Купить</button>
