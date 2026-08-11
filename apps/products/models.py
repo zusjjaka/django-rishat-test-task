@@ -6,7 +6,7 @@ class Item(models.Model):
     """Item model."""
     name: str = models.CharField(
         verbose_name=_('название'),
-        max_length=20
+        max_length=30
     )
     description: str = models.TextField(
         verbose_name=_('описание')

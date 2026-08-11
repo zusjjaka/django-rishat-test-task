@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.db.models import QuerySet
 from django.views import View
 from django.http import (
     HttpRequest,
@@ -21,13 +22,18 @@ class ItemView(View):
     """Show items info."""
     def get(self,
             request: HttpRequest,
-            id: int,
+            id: int = None,
             *args: t.Any,
             **kwargs: t.Any) -> HttpResponse:
+        if id is None:
+            item_queryset: QuerySet[Item] = Item.objects.all()
+            return render(request, 'item.html', {'item_list': item_queryset})
+
         item: Item = get_object_or_404(Item, id=id)
         return render(request, 'item.html', 
                       {'item': item,
                        'stripe_pub_key': settings.STRIPE_PUB_KEY})
+
 
 class BuyView(View):
     """Create Stripe session."""

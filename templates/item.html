@@ -49,10 +49,19 @@
     </style>
 </head>
 <body>
-    <h1>{{ item.name }} | {{ item.price }}</h1>
-    <p id="description">{{ item.description }}</p>
-    <input type="hidden">
-    <button id="buy_btn">Купить</button>
+    {% if item_list %}
+        {% for item in item_list %}
+                <h1>({{ item.id }}) {{ item.name }} | {{ item.price }}</h1>
+                <p id="description">{{ item.description }}</p>
+                <input type="hidden">
+                <button id="buy_btn">Купить</button>
+        {% endfor %}
+    {% else %}
+        <h1>{{ item.name }} | {{ item.price }}</h1>
+        <p id="description">{{ item.description }}</p>
+        <input type="hidden">
+        <button id="buy_btn">Купить</button>
+    {% endif %}
 </body>
 <script src="https://js.stripe.com/v3"></script>
 <script>

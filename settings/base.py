@@ -66,8 +66,12 @@ WSGI_APPLICATION = 'settings.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': decouple.config('DB_NAME', cast=str),
+        'USER': decouple.config('DB_USER', cast=str),
+        'PASSWORD': decouple.config('DB_PASS', cast=str),
+        'HOST': decouple.config('DB_HOST', 'localhost', cast=str),
+        'PORT': decouple.config('DB_PORT', '5432', cast=int),
     }
 }
 

@@ -13,7 +13,7 @@ class Command(BaseCommand):
     def handle(self, *args: t.Any, **kwargs: t.Any) -> None:
         root_path = pathlib.Path(__file__).resolve().parent
         data_path = os.path.join(root_path, 'items.json')
-        with open(data_path, 'r') as file:
+        with open(data_path) as file:
             txt_data = file.read()
             json_data = json.loads(txt_data)
             Item.objects.bulk_create(Item(**fields) for fields in json_data)

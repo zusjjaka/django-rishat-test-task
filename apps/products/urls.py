@@ -8,5 +8,6 @@ from .views import (
 
 urlpatterns = (
     path('item/<int:id>/', ItemView.as_view()),
+    path('item/', ItemView.as_view()),
     path('buy/<int:id>/', BuyView.as_view()),
 )
