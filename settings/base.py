@@ -14,7 +14,7 @@ SECRET_KEY = decouple.config('SECRET_KEY', cast=str)
 
 DEBUG = decouple.config('DEBUG', True, cast=bool)
 
-HOST = decouple('HOST', '127.0.0.1', cast=str)
+HOST = decouple.config('HOST', '127.0.0.1', cast=str)
 DOMAIN = 'https://' + HOST
 
 ALLOWED_HOSTS = (
