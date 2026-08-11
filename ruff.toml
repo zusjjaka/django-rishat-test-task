@@ -1,0 +1,15 @@
+exclude = [
+    "env",
+    "migrations",
+]
+
+line-length = 79
+indent-width = 4
+
+[format]
+quote-style = "single"
+indent-style = "tab"
+
+[lint]
+select = ["E", "I", "F", "UP"]
+ignore = ["I001"]

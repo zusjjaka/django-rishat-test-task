@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Страница Товара</title>
+    <style>
+        body {
+            background-color: #1a1f24;
+            color: white;
+            width: 100vw;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        h1 {
+            margin-top: 50px;
+            margin-bottom: 20px;
+            width: auto;
+            text-align: center;
+        }
+        p {
+            width: 450px;
+            font-size: 110%;
+            text-align: left;
+            white-space: pre-line;
+        }
+        button {
+            height: 40px;
+            width: 120px;
+            background-color: #1051b5;
+            color: #ffffff;
+            border: none;
+            border-radius: 7px;
+            margin-top: 35px;
+            margin-bottom: 50px;
+            font-size: large;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #104ba2;
+        }
+        button:active {
+            background-color: #0b3c84;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ item.name }} | {{ item.price }}</h1>
+    <p id="description">{{ item.description }}</p>
+    <input type="hidden">
+    <button id="buy_btn">Купить</button>
+</body>
+<script src="https://js.stripe.com/v3"></script>
+<script>
+    if (window.location.href.endsWith('?success=true')) alert('Спасибо за покупку!');
+
+    const stripe = Stripe("{{ stripe_pub_key }}");
+
+    const btn = document.body.querySelector("#buy_btn");
+    btn.addEventListener("click", () => {
+        fetch('/buy/{{ item.id }}/')
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            stripe.redirectToCheckout({sessionId: data.session_id})
+        })
+    })
+
+    const description = document.querySelector("#description");
+    description.textContent = description.textContent.replaceAll("<br>", "\n")
+</script>
+</html>
